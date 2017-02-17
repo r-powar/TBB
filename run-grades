@@ -1,0 +1,26 @@
+#!/usr/bin/python
+import os
+import sys
+
+files = [
+  "grades-10e4.in.txt",
+  "grades-10e5.in.txt",
+  "grades-10e6.in.txt",
+  "grades-10e7.in.txt",
+  "grades-10e8.in.txt"
+]
+
+threads = [1, 2, 4, 8, 16]
+threads = [ str(x) for x in threads ]
+
+outFile = open("grades.csv", "w")
+outFile.write("size,num_threads,adjust_seq_time,adjust_para_time,count_seq_time,count_para_time,scan_seq_time,scan_para_time\n")
+outFile.close()
+
+for file in files:
+  for thread in threads:
+    cmdLine = "./grades tests/" + file + " " + thread + " 80 89"
+    print "Running test: ", cmdLine
+    os.system(cmdLine)
+
+sys.exit(0)

@@ -1,0 +1,32 @@
+#!/usr/bin/python
+import os
+import sys
+
+files = [
+  "life-100.in.txt",
+  "life-500.in.txt",
+  "life-1000.in.txt",
+  "life-5000.in.txt",
+  "life-10000.in.txt"
+]
+
+threads = [1, 2, 4, 8, 16]
+threads = [ str(x) for x in threads ]
+
+outFile = open("life.csv", "w")
+outFile.write("size,num_threads,run_time\n")
+outFile.close()
+
+for inFile in files:
+  for thread in threads:
+    cmdLine = "./life tests/" + inFile + " " + thread
+    print "Running test: ", cmdLine
+    os.system(cmdLine)
+
+    outFile = inFile[:-7] + ".out.txt"
+    if os.system("diff output.txt tests/" + outFile):
+      print "----Test FAILED----"
+      sys.exit(-1)
+    print "----Test PASSED----"
+
+sys.exit(0)
